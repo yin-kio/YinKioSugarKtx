@@ -2,10 +2,12 @@ package com.yinkio.shugar_ktx
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import kotlinx.coroutines.*
 
 
 inline fun <T, reified VB: ViewBinding> recyclerAdapter(
@@ -52,6 +54,35 @@ class ItemViewHolder<T, VB : ViewBinding> constructor(
             val inflater = LayoutInflater.from(parent.context)
             val binding = method.invoke(vbClass, inflater, parent, false) as VB
             return ItemViewHolder(binding)
+        }
+    }
+}
+
+
+inline fun <T> ListAdapter<T, *>.submitAfter(
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    scope: CoroutineScope = CoroutineScope(dispatcher),
+    crossinline getList: CoroutineScope.() -> List<T>
+) : Job {
+    return scope.launch {
+        val data = getList()
+        withContext(Dispatchers.Main){
+            submitList(data)
+        }
+    }
+}
+
+inline fun <T> Fragment.submitTo(
+    adapter: ListAdapter<T, *>,
+    crossinline after: CoroutineScope.() -> List<T>,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
+) : Job{
+    return CoroutineScope(dispatcher).launch {
+        val data = after()
+        if (isResumed){
+            withContext(Dispatchers.Main) {
+                adapter.submitList(data)
+            }
         }
     }
 }
