@@ -2,12 +2,17 @@ package com.yinkio.shugar_ktx
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 
-fun <T> AppCompatActivity.after(liveData: LiveData<T>, updating: (T) -> Unit){
-    liveData.observe(this, updating)
+inline fun <T> AppCompatActivity.observe(liveData: LiveData<T>, crossinline updating: (T) -> Unit){
+    liveData.observe(this){updating(it)}
 }
 
-fun <T> Fragment.after(liveData: LiveData<T>, updating: (T) -> Unit){
-    liveData.observe(viewLifecycleOwner, updating)
+inline fun <T> Fragment.observe(liveData: LiveData<T>, crossinline updating: (T) -> Unit){
+    liveData.observe(viewLifecycleOwner){updating(it)}
+}
+
+inline fun <T> LifecycleOwner.observe(liveData: LiveData<T>, crossinline updating: (T) -> Unit){
+    liveData.observe(this){updating(it)}
 }
