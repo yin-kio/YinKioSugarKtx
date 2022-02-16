@@ -7,17 +7,23 @@ import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
 
-inline fun AppCompatActivity.onIO(crossinline action: suspend CoroutineScope.() -> Unit): Job {
-    return lifecycle.coroutineScope.launch(Dispatchers.IO) { action() }
+inline fun AppCompatActivity.onIO(
+    scope: CoroutineScope = lifecycle.coroutineScope,
+    crossinline action: suspend CoroutineScope.() -> Unit): Job {
+    return scope.launch(Dispatchers.IO) { action() }
 }
 
-inline fun Fragment.onIO(crossinline action: suspend CoroutineScope.() -> Unit): Job {
-    return lifecycle.coroutineScope.launch(Dispatchers.IO) { action() }
+inline fun Fragment.onIO(
+    scope: CoroutineScope = lifecycle.coroutineScope,
+    crossinline action: suspend CoroutineScope.() -> Unit): Job {
+    return scope.launch(Dispatchers.IO) { action() }
 }
 
 
-inline fun ViewModel.onIO(crossinline action: suspend CoroutineScope.() -> Unit): Job {
-    return viewModelScope.onIO(action)
+inline fun ViewModel.onIO(
+    scope: CoroutineScope = viewModelScope,
+    crossinline action: suspend CoroutineScope.() -> Unit): Job {
+    return scope.onIO(action)
 }
 
 inline fun CoroutineScope.onIO(crossinline action: suspend CoroutineScope.() -> Unit): Job {
@@ -30,8 +36,10 @@ suspend inline fun CoroutineScope.onMain(crossinline action: CoroutineScope.() -
     withContext(Dispatchers.Main) { action() }
 }
 
-inline fun ViewModel.onDefault(crossinline action: suspend CoroutineScope.() -> Unit): Job {
-    return viewModelScope.onDefault(action)
+inline fun ViewModel.onDefault(
+    scope: CoroutineScope = viewModelScope,
+    crossinline action: suspend CoroutineScope.() -> Unit): Job {
+    return scope.onDefault(action)
 }
 
 inline fun CoroutineScope.onDefault(crossinline action: suspend CoroutineScope.() -> Unit): Job {
@@ -40,10 +48,14 @@ inline fun CoroutineScope.onDefault(crossinline action: suspend CoroutineScope.(
     }
 }
 
-inline fun Fragment.onDefault(crossinline action: suspend CoroutineScope.() -> Unit): Job {
-    return lifecycle.coroutineScope.launch(Dispatchers.Default) { action() }
+inline fun Fragment.onDefault(
+    scope: CoroutineScope = lifecycle.coroutineScope,
+    crossinline action: suspend CoroutineScope.() -> Unit): Job {
+    return scope.launch(Dispatchers.Default) { action() }
 }
 
-inline fun AppCompatActivity.onDefault(crossinline action: suspend CoroutineScope.() -> Unit): Job {
-    return lifecycle.coroutineScope.launch(Dispatchers.Default) { action() }
+inline fun AppCompatActivity.onDefault(
+    scope: CoroutineScope = lifecycle.coroutineScope,
+    crossinline action: suspend CoroutineScope.() -> Unit): Job {
+    return scope.launch(Dispatchers.Default) { action() }
 }

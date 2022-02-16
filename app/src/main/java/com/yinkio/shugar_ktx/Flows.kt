@@ -6,15 +6,19 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStateAtLeast
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
-fun <T>Fragment.observe(
+
+
+inline fun <T>Fragment.observe(
     flow: SharedFlow<T>,
+    scope: CoroutineScope = lifecycleScope,
     state: Lifecycle.State = Lifecycle.State.STARTED,
-    block: CoroutineScope.(T) -> Unit
-){
-    lifecycleScope.launch {
+    crossinline block: CoroutineScope.(T) -> Unit
+) : Job{
+    return scope.launch {
         lifecycle.whenStateAtLeast(state){
             flow.collect{
                 block(it)
@@ -23,12 +27,13 @@ fun <T>Fragment.observe(
     }
 }
 
-fun <T>AppCompatActivity.observe(
+inline fun <T>AppCompatActivity.observe(
     flow: SharedFlow<T>,
+    scope: CoroutineScope = lifecycleScope,
     state: Lifecycle.State = Lifecycle.State.STARTED,
-    block: CoroutineScope.(T) -> Unit
-){
-    lifecycleScope.launch {
+    crossinline block: CoroutineScope.(T) -> Unit
+) : Job{
+    return scope.launch {
         lifecycle.whenStateAtLeast(state){
             flow.collect{
                 block(it)
