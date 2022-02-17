@@ -32,6 +32,6 @@ This section explains how to add dependency to your project.
 2. add dependency
 ```
     dependencies {
-            implementation 'com.github.xYinKio:YinKioSugarKtx::0.01-alpha-debug'
+            implementation 'com.github.xYinKio:YinKioSugarKtx:0.01-alpha-debug'
     }
 ```
