@@ -12,12 +12,22 @@ This section explains how to add dependency to your project.
 
 1. add repository
 ```
+    on project level build.gradle
+    
     allprojects {
       repositories {
         ...
         maven { url 'https://jitpack.io' }
       }
     }
+    
+    or in settings.gradle
+    
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+    
 ```
 2. add dependency
 ```
