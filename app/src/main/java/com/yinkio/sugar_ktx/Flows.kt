@@ -1,4 +1,4 @@
-package com.yinkio.shugar_ktx
+package com.yinkio.sugar_ktx
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -8,7 +8,6 @@ import androidx.lifecycle.whenStateAtLeast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 

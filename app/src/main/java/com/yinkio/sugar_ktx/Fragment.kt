@@ -1,4 +1,4 @@
-package com.yinkio.shugar_ktx
+package com.yinkio.sugar_ktx
 
 import android.graphics.drawable.Drawable
 import android.text.format.Formatter

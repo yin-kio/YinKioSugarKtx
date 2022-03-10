@@ -1,4 +1,4 @@
-package com.yinkio.shugar_ktx
+package com.yinkio.sugar_ktx
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
